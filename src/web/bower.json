@@ -1,0 +1,10 @@
+{
+  "name": "saturn-web",
+  "dependencies": {
+    "angular": "~1.2.25",
+    "angular-bootstrap": "0.11.2",
+    "angular-route": "~1.2.25",
+    "jquery": "~2.1.1",
+    "lesshat": "3.0.2"
+  }
+}

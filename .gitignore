@@ -1,4 +1,6 @@
 *.class
 .gradle
+*.swp
 
 build/
+node_modules/
