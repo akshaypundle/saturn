@@ -1,6 +1,8 @@
 apply plugin: "java"
 apply plugin: "eclipse"
 
+defaultTasks "clean", "grunt", "build"
+
 repositories {
     mavenCentral()
 }
@@ -10,6 +12,12 @@ eclipse {
     name = "saturn"
   }
 }
+
+task grunt(type: Exec) {
+    workingDir "src/web"
+    commandLine "grunt"
+}
+
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
