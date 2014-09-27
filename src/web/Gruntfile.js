@@ -100,7 +100,6 @@ module.exports = function(grunt) {
   });
   
   grunt.loadNpmTasks("grunt-angular-templates");
-  grunt.loadNpmTasks("grunt-blanket-mocha");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-csslint");
   grunt.loadNpmTasks("grunt-contrib-less");
@@ -117,7 +116,6 @@ module.exports = function(grunt) {
       "ngtemplates",
       "less",
       "csslint",
-      "allFilesCovered",
       "tslint",
       "ts"
     ]
