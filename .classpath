@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/test"/>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="/Users/apundle/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/f951934aa5ae5a88d7e6dfaa6d32307d834a88be/commons-collections-3.2.jar" sourcepath="/Users/apundle/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/73d0340eaecbb0ec9d3e0ace90547ef08cbfaf27/commons-collections-3.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/apundle/.gradle/caches/modules-2/files-2.1/junit/junit/4.12-beta-2/eb899c93c162058b6ae990e7e279507803edd1fb/junit-4.12-beta-2.jar" sourcepath="/Users/apundle/.gradle/caches/modules-2/files-2.1/junit/junit/4.12-beta-2/962bd452e8f8fdf9896a1f9f36e292f260fd3890/junit-4.12-beta-2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/apundle/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" sourcepath="/Users/apundle/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
