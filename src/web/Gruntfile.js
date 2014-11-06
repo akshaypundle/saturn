@@ -2,57 +2,69 @@ module.exports = function(grunt) {
   "use strict";
 
   grunt.initConfig({
-    srcRoot: ".",
-    libraryRoot: "<%= srcRoot %>/libraries",
-    moduleRoot: "<%= srcRoot %>/modules",
+    lib: "./libraries",
+    src: "./src",
+    typings: "./typings",
     clean: {
-      build: ["<%= moduleRoot %>/**/*.js", "<%= moduleRoot %>/**/*.js.map", "<%= srcRoot %>/styles/app.css"]
+      build: ["<%= src %>/**/*.js", "<%= src %>/**/*.js.map", "<%= src %>/app.css"]
     },
 
     csslint: {
       lint: {
         options: {
-          "adjoining-classes": false, 
+          "adjoining-classes": false,
           "box-model": false,
-          "box-sizing": false, 
-          "bulletproof-font-face": false, 
-          "display-property-grouping": false, 
+          "box-sizing": false,
+          "bulletproof-font-face": false,
+          "display-property-grouping": false,
           "duplicate-background-images": false,
-          "fallback-colors": false, 
-          "floats": false, 
-          "font-faces": false, 
-          "font-sizes": false, 
-          "gradients": false, 
+          "fallback-colors": false,
+          "floats": false,
+          "font-faces": false,
+          "font-sizes": false,
+          "gradients": false,
           "ids": false,
-          "import": false, 
-          "important": false, 
-          "known-properties": false, 
+          "import": false,
+          "important": false,
+          "known-properties": false,
           "outline-none": false,
-          "overqualified-elements": false, 
+          "overqualified-elements": false,
           "qualified-headings": false,
           "unique-headings": false,
-          "vendor-prefix": false, 
-          "zero-units": false 
+          "vendor-prefix": false,
+          "zero-units": false
         },
         src: [
-          "<%= srcRoot %>/styles/app.css"
+          "<%= src %>/app.css"
         ]
+      }
+    },
+
+    'http-server': {
+      'dev': {
+        root: "<%= src %>",
+        port: 8080,
+        host: "127.0.0.1",
+        showDir : true,
+        autoIndex: true,
+        ext: "html",
+        runInBackground: true
       }
     },
 
     less: {
       compile: {
         files: {
-          "<%= srcRoot %>/styles/app.css": "<%= srcRoot %>/styles/app.less"
+          "<%= src %>/app.css": "<%= src %>/app.less"
         }
       }
     },
 
     ngtemplates: {
       "datatable": {
-        cwd: "<%= srcRoot %>",
-        dest: "<%= moduleRoot %>/templates.js",
-        src: "modules/**/*.html",
+        cwd: "<%= src %>",
+        dest: "<%= src %>/templates.js",
+        src: "<%= src %>/**/*.html",
       }
     },
 
@@ -65,7 +77,7 @@ module.exports = function(grunt) {
           sourceMap: true,
           target: "es5"
         },
-        src: ["<%= moduleRoot %>/**/*.ts", "<%= srcRoot %>/typings/**/*.d.ts", "<%= libraryRoot %>/**/*.d.ts"]
+        src: ["<%= src %>/**/*.ts", "<%= typings %>/**/*.d.ts", "<%= lib %>/**/*.d.ts"]
       }
     },
 
@@ -73,7 +85,7 @@ module.exports = function(grunt) {
       options: {
         configuration: grunt.file.readJSON("tslint.json")
       },
-      files: ["<%= moduleRoot %>/**/*.ts"]
+      files: ["<%= src %>/**/*.ts"]
     },
 
     watch: {
@@ -85,29 +97,30 @@ module.exports = function(grunt) {
         tasks: ["build"]
       },
       ts: {
-        files: ["<%= moduleRoot %>/**/*.ts", "<%= srcRoot %>/typings/**/*.d.ts", "<%= libraryRoot %>/**/*.d.ts"],
+        files: ["<%= src %>/**/*.ts", "<%= typings %>/**/*.d.ts", "<%= lib %>/**/*.d.ts"],
         tasks: ["tslint", "ts"]
       },
       less: {
-        files: ["<%= moduleRoot %>/**/*.less"],
+        files: ["<%= src %>/**/*.less"],
         tasks: ["less", "csslint"]
       },
       templates: {
-        files: ["<%= moduleRoot %>/**/*.html"],
+        files: ["<%= src %>/**/*.html"],
         tasks: ["ngtemplates"]
       }
     }
   });
-  
+
   grunt.loadNpmTasks("grunt-angular-templates");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-csslint");
   grunt.loadNpmTasks("grunt-contrib-less");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-http-server");
   grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-tslint");
 
-  
+
   grunt.registerTask("default", "build");
 
   grunt.registerTask("build",
@@ -123,6 +136,7 @@ module.exports = function(grunt) {
   grunt.registerTask("devWatch",
     [
       "build",
+      "http-server:dev",
       "watch"
     ]
   );
