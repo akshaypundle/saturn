@@ -1,9 +1,8 @@
 module Saturn.Api {
     export interface Instrument {
-        symbol: string;
-        last: number;
-        bid: number;
         ask: number;
+        bid: number;
+        symbol: string;
     }
 
     export class OptionType {
@@ -12,8 +11,9 @@ module Saturn.Api {
     }
 
     export interface Option extends Instrument {
-        underlying: string;
         expiry: string;
+        strike: number;
         type: OptionType;
+        underlying: Instrument;
     }
 }

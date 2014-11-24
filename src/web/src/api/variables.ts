@@ -1,4 +1,2 @@
-module Saturn.Api {
-    export var options: Options[];
-    export var coveredCalls: CoveredCall[];
-}
+var options: Saturn.Api.Option[];
+var coveredCalls: Saturn.Api.CoveredCall[];

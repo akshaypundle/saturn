@@ -10,9 +10,9 @@ module Saturn.Api {
     }
 
     export interface ITMCoveredCall extends CoveredCall {
-        roi: number;
-        downsideProtection: number;
         breakEven: number;
+        downsideProtection: number;
+        roi: number;
     }
 
     export interface OTMCoveredCall extends CoveredCall {

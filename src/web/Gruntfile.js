@@ -2,9 +2,11 @@ module.exports = function(grunt) {
   "use strict";
 
   grunt.initConfig({
-    lib: "./libraries",
-    src: "./src",
-    typings: "./typings",
+	current: ".",
+    lib: "<%= current %>/libraries",
+    src: "<%= current %>/src",
+    typings: "<%= current %>/typings",
+
     clean: {
       build: ["<%= src %>/**/*.js", "<%= src %>/**/*.js.map", "<%= src %>/app.css"]
     },
@@ -42,7 +44,7 @@ module.exports = function(grunt) {
 
     'http-server': {
       'dev': {
-        root: "<%= src %>",
+        root: "<%= current %>",
         port: 8080,
         host: "127.0.0.1",
         showDir : true,
@@ -61,10 +63,9 @@ module.exports = function(grunt) {
     },
 
     ngtemplates: {
-      "datatable": {
-        cwd: "<%= src %>",
+      "saturn.app": {
         dest: "<%= src %>/templates.js",
-        src: "<%= src %>/**/*.html",
+        src: "<%= src %>/**/partial-*.html",
       }
     },
 
