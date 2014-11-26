@@ -6,6 +6,8 @@ module Saturn.Options {
         withPaginationType(paginationType: string): IDTOptionsBuilder;
         withOption(key: any, value: any): IDTOptionsBuilder;
         withBootstrap(): IDTOptionsBuilder;
+        withTableTools(swfPath : string): IDTOptionsBuilder;
+        withTableToolsButtons(param : any): IDTOptionsBuilder;
     }
 
     export interface IDTColumnBuilder {
@@ -14,6 +16,7 @@ module Saturn.Options {
     }
 
     export interface IScope extends ng.IScope {
+        selected: string;
         options: any;
         columns: any[];
     }
@@ -23,6 +26,23 @@ module Saturn.Options {
         constructor($scope: IScope, DTOptionsBuilder: IDTOptionsBuilder, DTColumnBuilder: IDTColumnBuilder, $q: ng.IQService) {
             $scope.options = DTOptionsBuilder.fromFnPromise(() => $q.when(options))
                 .withOption("lengthChange", false)
+                .withOption("tableTools", {
+                        "sSwfPath": "libraries/datatables-tabletools/swf/copy_csv_xls_pdf.swf",
+                        "sRowSelect": "single",
+                        "aButtons": ["copy", {
+                                "sExtends": "collection",
+                                "sButtonText": "Save",
+                                "aButtons": ["csv", "pdf"]
+                            }
+                        ],
+                        "fnRowSelected": function ( nodes : any ) {
+                            $scope.$apply(() => {
+                                $scope.selected = nodes[0].firstChild.innerText;
+                            });
+                        }
+                    }
+                )
+                .withTableTools("libraries/datatables-tabletools/swf/copy_csv_xls_pdf.swf")
                 .withBootstrap();
             $scope.columns = [
                 DTColumnBuilder.newColumn("option.underlying.symbol").withTitle("Underlying"),
@@ -33,6 +53,6 @@ module Saturn.Options {
             ];
         }
     }
-
-    controllers.controller("options.controller", Controller);
+    // chart : http://chart.finance.yahoo.com/z?s=GOOG&t=5d
+    controllers.controller("saturn.options.controller", Controller);
 }

@@ -65,7 +65,7 @@ module.exports = function(grunt) {
     ngtemplates: {
       "saturn.app": {
         dest: "<%= src %>/templates.js",
-        src: "<%= src %>/**/partial-*.html",
+        src: "<%= src %>/**/*.html",
       }
     },
 
