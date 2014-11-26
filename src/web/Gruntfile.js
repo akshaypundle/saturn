@@ -50,7 +50,7 @@ module.exports = function(grunt) {
         showDir : true,
         autoIndex: true,
         ext: "html",
-        runInBackground: true
+        runInBackground: true,
       }
     },
 

@@ -4,6 +4,40 @@
 	      dt-options="options"
 		  dt-columns="columns"
 		  class="table table-striped table-bordered"></table>
-	  	<img width="400" height="185" ng-src="http://chart.finance.yahoo.com/z?s={{selected}}&t=5d&z=m"/>
+	  <div class="container-fluid">
+	    <div class="row">
+	  	  <div class="col-md-6">
+	  	    <table class="table table-bordered table-condensed">
+	  	      <tr class="text-center input-lg">
+	  	        <td colspan=2 ><a ng-href="http://finance.yahoo.com/q?s={{selected}}">{{selectedQuote.Name}}</a></td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>Last</td><td>{{selectedQuote.LastTradePriceOnly}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>Day range</td><td>{{selectedQuote.DaysRange}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>Year range</td><td>{{selectedQuote.YearRange}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>Market cap</td><td>{{selectedQuote.MarketCapitalization}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>PE</td><td>{{selectedQuote.PERatio}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>EPS</td><td>{{selectedQuote.EarningsShare}}</td>
+	  	      </tr>
+	  	      <tr class="input-sm">
+	  	        <td>Year target</td><td>{{selectedQuote.OneyrTargetPrice}}</td>
+	  	      </tr>
+	  	    </table>
+	  	  </div>
+	  	  <div class="col-md-6">
+	  	    <img ng-src="http://chart.finance.yahoo.com/z?s={{selected}}&t=5d&z=m"/>
+	  	  </div>
+	  	</div>
+      </div>
 	</div>
 </div>

@@ -8,7 +8,9 @@ module Saturn {
         directives.name,
         services.name,
         "ui.router",
-        "datatables"
+        "datatables",
+        "ngResource",
+        "ngSanitize"
     ]);
 
     app.config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {
