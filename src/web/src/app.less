@@ -1,6 +1,61 @@
 @import "../libraries/lesshat/build/lesshat.less";
+@sidebar-width: 200px;
+@padding: 20px;
+@details-width: 400px;
+.navbar {
+  margin-bottom: 0px;
+}
 
-.active {
-	background-color: green !important;
+.saturn {
+  .dataTables_filter {
+    width: 400px;
+  }
+
+  .dataTables_wrapper {
+    .row {
+      margin-top: 0;
+    }
+  }
+
+  .form-control {
+    width: 300px;
+  }
+
+  .content-area {
+    float: right;
+    width: calc(100% ~"-" @sidebar-width ~"-" @padding);
+    .details-panel {
+      width: @details-width;
+    }
+
+    .details-image {
+      width: @details-width;
+    }
+
+    .main-table {
+      border: solid;
+      border-width: 1px;
+      border-color: lightgray;
+    }
+  }
+
+  .sidebar {
+    float: left;
+    width: @sidebar-width;
+    height: 700px;
+    border-right: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    margin-top: 20px;
+
+    .filter {
+      margin-top: 10px;
+      .numeric-input-row {
+        .numeric-input {
+          width: 50px;
+        }
+      }
+    }
+  }
 }
 
