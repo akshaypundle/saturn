@@ -59,11 +59,11 @@ module Saturn.OptionView {
 
             $scope.dtOptions = DTOptionsBuilder.fromFnPromise(() => $scope.data)
                 .withOption("lengthChange", false)
+                .withOption("hover", true)
                 .withOption("tableTools", tableToolsOptions)
                 .withTableTools("")
                 .withBootstrap();
 
-            console.error($scope);
             $scope.dtColumns = $scope.columns.map((col) => DTColumnBuilder.newColumn(col.id).withTitle(col.title));
             $scope.numericColumns = [];
             for (var i = 0; i < $scope.columns.length; i++) {
