@@ -52,9 +52,9 @@ module Saturn.OptionView {
             };
 
             var tableToolsOptions = {
-                "sRowSelect": "single",
-                "aButtons": <String[]>[],
-                "fnRowSelected": rowSelectionCallback
+                sRowSelect: "single",
+                aButtons: <String[]>[],
+                fnRowSelected: rowSelectionCallback
             };
 
             $scope.dtOptions = DTOptionsBuilder.fromFnPromise(() => $scope.data)
