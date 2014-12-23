@@ -1,5 +1,7 @@
 package com.saturn.api.core;
 
+import org.apache.commons.lang3.Validate;
+
 import com.google.common.base.MoreObjects;
 
 public class Instrument {
@@ -10,7 +12,7 @@ public class Instrument {
 	public Instrument(float bid, float ask, String symbol) {
 		this.bid = bid;
 		this.ask = ask;
-		this.symbol = symbol;
+		this.symbol = Validate.notNull(symbol);
 	}
 
 	public float getBid() {

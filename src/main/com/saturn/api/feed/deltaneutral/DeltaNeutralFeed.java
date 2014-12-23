@@ -15,6 +15,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import com.saturn.App;
 import com.saturn.Configuration;
+import com.saturn.api.core.Greeks;
 import com.saturn.api.core.Instrument;
 import com.saturn.api.core.Option;
 import com.saturn.api.core.OptionType;
@@ -70,12 +71,18 @@ public class DeltaNeutralFeed extends Feed<Option> {
 				Float.valueOf(record.get("UnderlyingPrice")), //
 				record.get("UnderlyingSymbol"));
 
+		final Greeks greeks = new Greeks(Float.valueOf(record.get("IV")), //
+				Float.valueOf(record.get("Delta")), //
+				Float.valueOf(record.get("Gamma")), //
+				Float.valueOf(record.get("Theta")), //
+				Float.valueOf(record.get("Vega")));
+
 		final Option option = new Option(Float.valueOf(record.get("Bid")), //
 				Float.valueOf(record.get("Ask")),//
 				record.get("OptionSymbol"), //
 				OptionType.fromString(record.get("Type")), //
 				EXPIRATION_DATE_PATTERN.parseLocalDate(record.get("Expiration")),
-				Float.parseFloat(record.get("Strike")), underlying);
+				Float.parseFloat(record.get("Strike")), underlying, greeks);
 
 		final long timestamp = TIMESTAMP_DATE_PATTERN.parseDateTime(record.get("DataDate")).getMillis();
 		return new Timestamped<Option>(option, timestamp);
