@@ -19,7 +19,6 @@ public class Timestamped<T> {
 
 	public long getTimestamp() {
 		return this.timestamp;
-
 	}
 
 	@Override

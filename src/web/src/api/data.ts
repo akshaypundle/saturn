@@ -1,22 +1,26 @@
-var options: Saturn.Api.Option[];
-var coveredCalls: Saturn.Api.CoveredCall[];
 
 module Saturn.Api.Data {
 
     export class Service {
         private $q: ng.IQService;
+        private $http: ng.IHttpService;
 
-        public static $inject = ["$q"];
-        constructor($q: ng.IQService) {
+        public static $inject = ["$q", "$http"];
+        constructor($q: ng.IQService, $http: ng.IHttpService) {
             this.$q = $q;
+            this.$http = $http;
         }
 
         public getOptions() {
-            return this.$q.when(options);
+            return this.$http.get("options.js").then((d) => {
+                return d.data;
+            });
         }
 
         public getCoveredCalls() {
-            return this.$q.when(coveredCalls);
+            return this.$http.get("coveredCalls.js").then((d) => {
+                return d.data;
+            });
         }
     }
     services.service("api.data.service", Service);

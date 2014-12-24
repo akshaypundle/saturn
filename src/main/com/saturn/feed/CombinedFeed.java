@@ -1,8 +1,10 @@
 package com.saturn.feed;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
@@ -60,5 +62,9 @@ public class CombinedFeed<T> extends Feed<T> {
 	@Override
 	public void close() throws IOException {
 		this.feedData.clear();
+	}
+
+	public Map<Object, Timestamped<T>> getFeedData() {
+		return Collections.unmodifiableMap(this.feedData);
 	}
 }

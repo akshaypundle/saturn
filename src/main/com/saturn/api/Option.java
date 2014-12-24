@@ -5,10 +5,13 @@ import javax.annotation.CheckForNull;
 import org.apache.commons.lang3.Validate;
 import org.joda.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.google.common.base.MoreObjects.ToStringHelper;
 
 public class Option extends Instrument {
 
+	@JsonSerialize(using = ToStringSerializer.class)
 	private final LocalDate expiry;
 	@CheckForNull
 	private final Greeks greeks;
