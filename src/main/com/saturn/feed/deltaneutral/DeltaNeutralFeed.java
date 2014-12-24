@@ -1,4 +1,4 @@
-package com.saturn.api.feed.deltaneutral;
+package com.saturn.feed.deltaneutral;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,14 +13,13 @@ import org.apache.commons.io.IOUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.saturn.App;
 import com.saturn.Configuration;
-import com.saturn.api.core.Greeks;
-import com.saturn.api.core.Instrument;
-import com.saturn.api.core.Option;
-import com.saturn.api.core.OptionType;
-import com.saturn.api.feed.Feed;
-import com.saturn.api.feed.Timestamped;
+import com.saturn.api.Feed;
+import com.saturn.api.Greeks;
+import com.saturn.api.Instrument;
+import com.saturn.api.Option;
+import com.saturn.api.OptionType;
+import com.saturn.api.Timestamped;
 
 public class DeltaNeutralFeed extends Feed<Option> {
 	public static final String FEED_DIR_PROPERTY_KEY = "saturn.feed.deltaneutral.dir";
@@ -36,7 +35,8 @@ public class DeltaNeutralFeed extends Feed<Option> {
 	private CSVParser csvParser;
 	private Iterator<CSVRecord> recordIterator;
 
-	public DeltaNeutralFeed(Properties properties) {
+	public DeltaNeutralFeed() {
+		final Properties properties = Configuration.getProperties();
 		final String feedDir = properties.getProperty(FEED_DIR_PROPERTY_KEY);
 
 		DownloadUtils.downloadDataFile(feedDir);
@@ -53,9 +53,9 @@ public class DeltaNeutralFeed extends Feed<Option> {
 	public static void main(String[] args) {
 		if (args.length == 1 && "--help".equals(args[0])) {
 			System.out.println("Downloads the latest zip file from Delta neutral.");
-			System.out.println("Download dir set in " + App.PROPERTIES_FILE + "via " + FEED_DIR_PROPERTY_KEY);
+			System.out.println("Download dir set in " + Configuration.PROPERTIES_FILE + "via " + FEED_DIR_PROPERTY_KEY);
 		}
-		final String feedDir = Configuration.loadProperties().getProperty(FEED_DIR_PROPERTY_KEY);
+		final String feedDir = Configuration.getProperties().getProperty(FEED_DIR_PROPERTY_KEY);
 		DownloadUtils.downloadDataFile(feedDir);
 	}
 

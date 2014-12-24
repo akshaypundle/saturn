@@ -1,4 +1,4 @@
-package com.saturn.api.feed.deltaneutral;
+package com.saturn.feed.deltaneutral;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,14 +14,14 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
-import com.saturn.App;
+import com.saturn.Configuration;
 
 class DownloadUtils {
 
 	public static final void downloadDataFile(String feedDir) {
 		if (feedDir == null) {
 			throw new IllegalStateException("Feed directory not specified. Normally, this property is specified via "
-					+ DeltaNeutralFeed.FEED_DIR_PROPERTY_KEY + " in " + App.PROPERTIES_FILE);
+					+ DeltaNeutralFeed.FEED_DIR_PROPERTY_KEY + " in " + Configuration.PROPERTIES_FILE);
 		}
 		final FTPClient client = new FTPClient();
 		final File feedDirectory = new File(feedDir);

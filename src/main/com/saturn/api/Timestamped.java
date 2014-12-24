@@ -1,4 +1,4 @@
-package com.saturn.api.feed;
+package com.saturn.api;
 
 import org.joda.time.LocalDateTime;
 

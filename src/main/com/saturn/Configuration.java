@@ -7,8 +7,14 @@ import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 
 public final class Configuration {
+	public static final String PROPERTIES_FILE = "saturn.properties";
+	private static final Properties properties = loadProperties();
 
-	public static final Properties loadProperties() {
+	public static Properties getProperties() {
+		return properties;
+	}
+
+	private static final Properties loadProperties() {
 
 		File curDir = new File(".");
 		while (curDir != null) {
@@ -24,14 +30,14 @@ public final class Configuration {
 
 	private static final Properties loadProperties(File propertiesDir) {
 		if (propertiesDir.exists() && propertiesDir.isDirectory()) {
-			if (!new File(propertiesDir, "saturn.properties").exists()) {
+			if (!new File(propertiesDir, PROPERTIES_FILE).exists()) {
 				propertiesDir = new File(propertiesDir, "conf");
 			}
-			final File propertiesFile = new File(propertiesDir, "saturn.properties");
+			final File propertiesFile = new File(propertiesDir, PROPERTIES_FILE);
 			if (propertiesFile.exists()) {
 				try {
 					final Properties properties = new Properties();
-					properties.load(FileUtils.openInputStream(new File(propertiesDir, "saturn.properties")));
+					properties.load(FileUtils.openInputStream(new File(propertiesDir, PROPERTIES_FILE)));
 					return properties;
 				} catch (final IOException e) {
 					throw new RuntimeException(e);

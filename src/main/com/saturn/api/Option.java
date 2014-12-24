@@ -1,11 +1,11 @@
-package com.saturn.api.core;
+package com.saturn.api;
 
 import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.Validate;
 import org.joda.time.LocalDate;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
 public class Option extends Instrument {
 
@@ -49,12 +49,16 @@ public class Option extends Instrument {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this) //
+		return toStringHelper().toString();
+	}
+
+	@Override
+	public ToStringHelper toStringHelper() {
+		return super.toStringHelper() //
 				.add("underlying", this.underlying) //
 				.add("expiry", this.expiry) //
 				.add("type", this.type) //
 				.add("strike", this.strike) //
-				.add("greeks", this.greeks) //
-				.toString();
+				.add("greeks", this.greeks);
 	}
 }

@@ -1,4 +1,4 @@
-package com.saturn.api.core;
+package com.saturn.api;
 
 public enum OptionType {
 	CALL, PUT;

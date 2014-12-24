@@ -1,4 +1,4 @@
-package com.saturn.api.feed;
+package com.saturn.api;
 
 import java.io.Closeable;
 import java.util.Iterator;

@@ -1,6 +1,7 @@
-package com.saturn.api.core;
+package com.saturn.api;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
 public final class Greeks {
 
@@ -40,12 +41,15 @@ public final class Greeks {
 
 	@Override
 	public String toString() {
+		return toStringHelper().toString();
+	}
+
+	public ToStringHelper toStringHelper() {
 		return MoreObjects.toStringHelper(this) //
 				.add("iv", this.iv) //
 				.add("delta", this.delta) //
 				.add("gamma", this.gamma) //
 				.add("theta", this.theta) //
-				.add("vega", this.vega) //
-				.toString();
+				.add("vega", this.vega);
 	}
 }
