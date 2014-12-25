@@ -1,8 +1,10 @@
 package com.saturn.feed;
 
+import java.util.Iterator;
+
 import com.saturn.api.Feed;
-import com.saturn.api.Filter;
 import com.saturn.api.Option;
+import com.saturn.api.Timestamped;
 import com.saturn.feed.deltaneutral.DeltaNeutralFeed;
 import com.saturn.feed.yahoo.YahooFeed;
 
@@ -16,11 +18,8 @@ public final class Feeds {
 		return new YahooFeed();
 	}
 
-	public static <T> Feed<T> filtered(Feed<T> feed, Filter<T> filter) {
-		return new FilteredFeed<>(feed, filter);
-	}
-
-	public static <T> CombinedFeed<T> combined(Feed<T> feed1, Feed<T> feed2, Combiner<T> combiner) {
+	public static <T> CombinedFeed<T> combined(Iterator<Timestamped<T>> feed1, Iterator<Timestamped<T>> feed2,
+			Combiner<T> combiner) {
 		return new CombinedFeed<>(feed1, feed2, combiner);
 	}
 

@@ -26,7 +26,10 @@ module Saturn {
             templateUrl: "src/options/partial.html"
         }).state("covered-calls", {
             url: "/covered-calls",
-            templateUrl: "src/partials/covered-calls.html"
+            templateUrl: "src/coveredCalls/partial.html"
+        }).state("short-puts", {
+            url: "/short-puts",
+            templateUrl: "src/shortPuts/partial.html"
         }).state("butterfly", {
             url: "/butterfly",
             templateUrl: "src/partials/butterfly.html"

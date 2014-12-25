@@ -22,6 +22,12 @@ module Saturn.Api.Data {
                 return d.data;
             });
         }
+
+        public getShortPuts() {
+            return this.$http.get("shortPuts.js").then((d) => {
+                return d.data;
+            });
+        }
     }
     services.service("api.data.service", Service);
 }

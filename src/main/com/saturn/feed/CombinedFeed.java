@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 
 import com.google.common.collect.Maps;
@@ -18,7 +17,7 @@ public class CombinedFeed<T> extends Feed<T> {
 	private final LinkedHashMap<Object, Timestamped<T>> feedData;
 	private final Iterator<Timestamped<T>> feedIterator;
 
-	public CombinedFeed(Feed<T> feed1, Feed<T> feed2, Combiner<T> combiner) {
+	public CombinedFeed(Iterator<Timestamped<T>> feed1, Iterator<Timestamped<T>> feed2, Combiner<T> combiner) {
 		Validate.notNull(feed1);
 		Validate.notNull(feed2);
 		Validate.notNull(combiner);
@@ -43,8 +42,6 @@ public class CombinedFeed<T> extends Feed<T> {
 				}
 			}
 		}
-		IOUtils.closeQuietly(feed1);
-		IOUtils.closeQuietly(feed2);
 
 		this.feedIterator = this.feedData.values().iterator();
 	}
