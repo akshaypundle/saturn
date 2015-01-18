@@ -13,8 +13,10 @@
     </div>
   </div>
   <div class="content-area">
-    <table datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="table table-condensed main-table hover"></table>
-    <div class="" ng-if="selectedOption">
+    <span class="content-title" ng-show="dataLoaded"><h2>{{title}}</h2></span>
+    <span class="content-title" ng-show="!dataLoaded"><h2>Loading...</h2></span>
+    <table class="table table-condensed main-table hover"></table>
+    <div class="" ng-if="selectedOptionDetails">
       <div class="row">
         <div class="col-md-6">
           <table class="table table-condensed details-panel">
@@ -46,7 +48,7 @@
           </table>
         </div>
         <div class="col-md-6 details-image">
-          <img ng-src="http://chart.finance.yahoo.com/z?s={{selectedOption}}&t=5d&z=s" />
+          <img ng-src="http://chart.finance.yahoo.com/z?s={{selectedOptionDetails.symbol}}&t=5d&z=s" />
         </div>
       </div>
     </div>

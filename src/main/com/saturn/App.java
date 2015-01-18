@@ -47,8 +47,8 @@ public class App {
 			final float underlying = option.getUnderlying().getAsk();
 			return ImmutableMap.<String, Object> of(//
 					"option", option, //
-					"coveredCallRoi", COVERED_CALL_ROI.roi(option) * 100, //
-					"coveredCallDownProtect", 100 * (option.getStrike() - underlying) / underlying);
+					"coveredCallRoi", COVERED_CALL_ROI.roi(option), //
+					"coveredCallDownProtect", (option.getStrike() - underlying) / underlying);
 		}
 
 	};
@@ -61,8 +61,8 @@ public class App {
 			final float underlying = option.getUnderlying().getAsk();
 			return ImmutableMap.<String, Object> of(//
 					"option", option, //
-					"shortPutRoi", SHORT_PUT_ROI.roi(option) * 100, //
-					"shortPutDownProtect", 100 * (underlying - option.getStrike()) / option.getStrike());
+					"shortPutRoi", SHORT_PUT_ROI.roi(option), //
+					"shortPutDownProtect", (underlying - option.getStrike()) / option.getStrike());
 		}
 
 	};

@@ -5,19 +5,21 @@ module Saturn.OptionView {
     };
 
     export interface IColumnData {
-        id: string;
+        data: string;
         title: string;
         type: IColumnType;
+        defaultMin?: number;
+        defaultMax?: number;
     };
 
-    interface IScope extends ng.IScope {
+    export interface IScope extends ng.IScope {
         columns: IColumnData[];
         data: ng.IPromise<any>;
-        dtOptions: any;
-        dtColumns: any[];
+        dataTable: DataTables.DataTable;
+        dataLoaded: boolean;
         numericColumns: INumericFilter[];
-        selectedOption: string;
         selectedOptionDetails: any;
+        updateSelectedOptionDetails: (underlying: string) => any;
     }
 
     interface INumericFilter {
@@ -28,76 +30,25 @@ module Saturn.OptionView {
     }
 
     export class Controller {
-        private underlyingIndex = 0;
-        private dataTable: any;
+        private $http: ng.IHttpService;
+        private $scope : IScope;
 
-        public static $inject = ["$scope", "DTOptionsBuilder", "DTColumnBuilder", "$http"];
-        constructor($scope: IScope,
-            DTOptionsBuilder: jquery.dataTables.IDTOptionsBuilder,
-            DTColumnBuilder: jquery.dataTables.IDTColumnBuilder,
-            $http: ng.IHttpService) {
+        public static $inject = ["$scope", "$http"];
+        constructor($scope: IScope, $http: ng.IHttpService) {
+            this.$scope = $scope;
+            this.$http = $http;
 
-            var rowSelectionCallback = (nodes: any) => {
-                $scope.$apply(() => {
-                    $scope.selectedOption = nodes[this.underlyingIndex].firstChild.innerText;
-                });
+            $scope.updateSelectedOptionDetails = (underlying: string) => {
+                if (underlying) {
+                    var request = this.$http.get("https://query.yahooapis.com/v1/public/yql?q=" +
+                        "select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22" + underlying +
+                        "%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
 
-                var request = $http.get("https://query.yahooapis.com/v1/public/yql?q=" +
-                    "select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22" + $scope.selectedOption +
-                    "%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
-
-                request.then((quote: any) => {
-                    $scope.selectedOptionDetails = quote.data.query.results.quote;
-                });
-            };
-
-            var tableToolsOptions = {
-                sRowSelect: "single",
-                aButtons: <String[]>[],
-                fnRowSelected: rowSelectionCallback
-            };
-
-            $scope.dtOptions = DTOptionsBuilder.fromFnPromise(() => $scope.data)
-                .withOption("lengthChange", false)
-                .withOption("hover", true)
-                .withOption("tableTools", tableToolsOptions)
-                .withTableTools("")
-                .withBootstrap();
-
-            $scope.dtColumns = $scope.columns.map((col) => DTColumnBuilder.newColumn(col.id).withTitle(col.title));
-            $scope.numericColumns = [];
-            for (var i = 0; i < $scope.columns.length; i++) {
-                var col = $scope.columns[i];
-                if (col.type !== IColumnType.NUMERIC) {
-                    continue;
+                    request.then((quote: any) => {
+                        this.$scope.selectedOptionDetails = quote.data.query.results.quote;
+                    });
                 }
-
-                $scope.numericColumns.push({ min: <number>undefined, max: <number>undefined, index: i, title: col.title });
             };
-
-            $.fn.dataTable.ext.search.push((settings: any, data: any, dataIndex: any) => {
-                for (var i = 0; i < $scope.numericColumns.length; i++) {
-                    var col = $scope.numericColumns[i];
-                    var datum = parseFloat(data[col.index]) || undefined;
-                    if (col.min && datum !== undefined && datum < col.min) {
-                        return false;
-                    }
-                    if (col.max && datum !== undefined && datum > col.max) {
-                        return false;
-                    }
-                }
-                return true;
-            });
-
-            $scope.$on("event:dataTableLoaded", (event, loadedDT) => {
-                this.dataTable = loadedDT.DataTable;
-            });
-
-            $scope.$watch("numericColumns", () => {
-                if (this.dataTable) {
-                    this.dataTable.draw();
-                }
-            }, true);
         }
     }
     controllers.controller("saturn.optionView.controller", Controller);

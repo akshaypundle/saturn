@@ -27,7 +27,7 @@ public class CoveredCall implements SingleValueStrategy<Option> {
 						delta = (float) (0.5 * Math.exp(underlying - strike));
 					}
 
-					return ((strike - underlying) * delta + value.getBid()) / underlying;
+					return value.getBid() / underlying;
 				}
 			}
 		}

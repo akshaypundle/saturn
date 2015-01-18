@@ -27,7 +27,7 @@ public class ShortPuts implements SingleValueStrategy<Option> {
 						delta = 1 - (float) (0.5 * Math.exp(underlying - strike));
 					}
 
-					return ((underlying - strike) * delta + value.getBid()) / underlying;
+					return value.getBid() / underlying;
 				}
 			}
 		}
