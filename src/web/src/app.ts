@@ -29,7 +29,7 @@ module Saturn {
             templateUrl: "src/shortPuts/partial.html"
         }).state("butterfly", {
             url: "/butterfly",
-            templateUrl: "src/partials/butterfly.html"
+            templateUrl: "src/butterfly/partial.html"
         });
     });
 }
