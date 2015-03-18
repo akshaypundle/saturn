@@ -15,8 +15,10 @@ module Saturn.Butterfly {
                 { data: "low", title: "Low strike", type: Saturn.OptionView.IColumnType.NUMERIC },
                 { data: "option.strike", title: "Mid strike", type: Saturn.OptionView.IColumnType.NUMERIC },
                 { data: "high", title: "High strike", type: Saturn.OptionView.IColumnType.NUMERIC },
-                { data: "setup", title: "Setup cost", type: Saturn.OptionView.IColumnType.NUMERIC },
-                { data: "roi", title: "Roi", type: Saturn.OptionView.IColumnType.NUMERIC }
+                { data: "setup", title: "Cost $", type: Saturn.OptionView.IColumnType.NUMERIC },
+                { data: "roi", title: "Roi $", type: Saturn.OptionView.IColumnType.NUMERIC },
+                { data: "zero", title: "Zero %", type: Saturn.OptionView.IColumnType.NUMERIC, render: Util.renderPercent }
+
             ];
             $scope.data = $data.getButterfly();
         }

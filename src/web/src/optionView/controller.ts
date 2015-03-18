@@ -10,6 +10,7 @@ module Saturn.OptionView {
         type: IColumnType;
         defaultMin?: number;
         defaultMax?: number;
+        render?: any;
     };
 
     export interface IScope extends ng.IScope {

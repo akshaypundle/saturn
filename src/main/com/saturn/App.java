@@ -158,7 +158,7 @@ public class App {
 		for (int i = 1; i < options.size(); i++) {
 			final Option option = options.get(i);
 			final float diff = option.getStrike() - options.get(lastSelectedIndex).getStrike();
-			if (Math.abs(diff - difference) < 0.0001) {
+			if (almostSame(diff, difference)) {
 				prunedOptions.add(option);
 				lastSelectedIndex = i;
 				strikes.add(option.getStrike());
@@ -179,6 +179,7 @@ public class App {
 	}
 
 	private static List<Map<String, Object>> toButterfly(List<Option> options, int midIndex) {
+
 		if ((midIndex >= options.size() - 1) || midIndex <= 0) {
 			return Lists.newArrayList();
 		}
@@ -192,12 +193,26 @@ public class App {
 			}
 			final Option low = options.get(i);
 			final Option high = options.get(highIndex);
-			final float setup = midSetup - low.getBid() - high.getBid();
+
+			final float cost = low.getBid() + high.getBid() - midSetup;
 			final float spread = mid.getStrike() - low.getStrike();
-			ret.add(ImmutableMap.of("option", mid, "low", low.getStrike(), "high", high.getStrike(), "setup", setup,
-					"roi", spread - setup));
+			final float zero = (spread - (spread * cost) / (spread + cost)) / mid.getStrike();
+			final Map<String, Object> map = Maps.newHashMap();
+			map.put("option", mid);
+			map.put("low", low.getStrike());
+			map.put("high", high.getStrike());
+			map.put("setup", cost);
+			map.put("roi", spread - cost);
+			if (!Float.isInfinite(zero) && !Float.isNaN(zero)) {
+				map.put("zero", zero);
+			}
+			ret.add(map);
 
 		}
 		return ret;
+	}
+
+	private static boolean almostSame(float a, float b) {
+		return Math.abs(a - b) < 0.0001;
 	}
 }

@@ -13,6 +13,13 @@ module Saturn.OptionView {
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
             var tableElement = element.find(".main-table");
 
+            for (var i = 0; i < $scope.columns.length; i++) {
+                var col = $scope.columns[i];
+                if (col.type === IColumnType.NUMERIC && !col.render) {
+                    col.render = Util.render2Decimals;
+                }
+            };
+
             $scope.data.then((d) => {
                 $scope.dataTable = this.createTable(tableElement, d, $scope.columns);
             });
