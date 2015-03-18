@@ -1,0 +1,77 @@
+@import "../libraries/lesshat/build/lesshat.less";
+@import "optionView/styles.less";
+
+@sidebar-width: 220px;
+@padding: 20px;
+@details-width: 400px;
+.navbar {
+  margin-bottom: 0px;
+}
+
+.saturn {
+  .dataTables_filter {
+    float: right;
+    line-height: 3;
+    width: 400px;
+  }
+
+  .dataTables_wrapper {
+    .row {
+      margin-top: 0;
+    }
+  }
+
+  .form-control {
+    width: 300px;
+  }
+
+  .content-area {
+    float: right;
+    width: calc(100% ~"-" @sidebar-width ~"-" @padding);
+    .details-panel {
+      width: @details-width;
+    }
+
+    .content-title {
+      position:absolute;
+      top: 40px;
+    }
+    .details-image {
+      width: @details-width;
+    }
+
+    .main-table {
+      border: solid;
+      border-width: 1px;
+      border-color: lightgray;
+      .selected {
+        background-color: aliceblue;
+      }
+
+    }
+  }
+
+  .sidebar {
+    float: left;
+    width: @sidebar-width + 1;
+    height: 700px;
+    border-right: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    margin-top: 20px;
+
+    .filter {
+      .panel-title {
+        margin-bottom: 9px;
+      }
+      .numeric-input-row {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .numeric-input {
+          width: 50px;
+        }
+      }
+    }
+  }
+}
+

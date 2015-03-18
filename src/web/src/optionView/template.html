@@ -1,0 +1,56 @@
+<div class="text container-fluid option-view" ng-controller="saturn.optionView.controller">
+  <div class="sidebar">
+    <div class="filter">
+      <h3 class="panel-title text-center">Filters</h3>
+      <table class="table table-condensed">
+        <tr ng-repeat="col in numericColumns" class="numeric-input-row">
+          <th>{{col.title}}</th>
+          <td><input type="number" class="numeric-input" ng-model="col.min"></td>
+          <td>to</td>
+          <td><input type="number" class="numeric-input" ng-model="col.max"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="content-area">
+    <span class="content-title" ng-show="dataLoaded"><h2>{{title}}</h2></span>
+    <span class="content-title" ng-show="!dataLoaded"><h2>Loading...</h2></span>
+    <table class="table table-condensed main-table hover"></table>
+    <div class="" ng-if="selectedOptionDetails">
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-condensed details-panel">
+            <tr class="text-center input-lg">
+              <td colspan=2><a ng-href="http://finance.yahoo.com/q?s={{selectedOption}}">{{selectedOptionDetails.Name}}</a></td>
+              <td colspan=3><strong>{{selectedOptionDetails.LastTradePriceOnly}}</strong> ({{selectedOptionDetails.ChangeinPercent}})</td>
+            </tr>
+            <tr class="input-sm">
+              <td><strong>Day range</strong></td>
+              <td class="text-right">{{selectedOptionDetails.DaysRange}}</td>
+              <td></td>
+              <td><strong>PE</strong></td>
+              <td class="text-right">{{selectedOptionDetails.PERatio}}</td>
+            </tr>
+            <tr class="input-sm">
+              <td><strong>Year range</strong></td>
+              <td class="text-right">{{selectedOptionDetails.YearRange}}</td>
+              <td></td>
+              <td><strong>EPS</strong></td>
+              <td class="text-right">{{selectedOptionDetails.EarningsShare}}</td>
+            </tr>
+            <tr class="input-sm">
+              <td><strong>Market cap</strong></td>
+              <td class="text-right">{{selectedOptionDetails.MarketCapitalization}}</td>
+              <td></td>
+              <td><strong>Year target</strong></td>
+              <td class="text-right">{{selectedOptionDetails.OneyrTargetPrice}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6 details-image">
+          <img ng-src="http://chart.finance.yahoo.com/z?s={{selectedOptionDetails.symbol}}&t=5d&z=s" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+.tscache/
+node_modules/
+
+*.js.map
+templates.js
+tscommand-*
+
+coveredCalls.ja
+shortPuts.js
+options.js

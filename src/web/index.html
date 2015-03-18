@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="saturn.app">
+<head>
+<!--  styles -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+
+
+<!-- scripts -->
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-resource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-sanitize.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<!-- saturn scripts -->
+<script src="src/app.js"></script>
+<script src="src/util.js"></script>
+<script src="src/api/core.js"></script>
+<script src="src/api/coveredCall.js"></script>
+<script src="src/api/data.js"></script>
+<script src="src/butterfly/controller.js"></script>
+<script src="src/coveredCalls/controller.js"></script>
+<script src="src/options/controller.js"></script>
+<script src="src/shortPuts/controller.js"></script>
+<script src="src/optionView/controller.js"></script>
+<script src="src/optionView/directive.js"></script>
+
+<!-- templates cache -->
+<script src="src/templates.js"></script>
+
+<!-- test data (will be replaced when deployed)-->
+<script src="variables.js"></script>
+
+<!-- saturn styles -->
+<link rel="stylesheet" href="src/app.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" ui-sref="/">Saturn</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a ui-sref="options">Options</a></li>
+      <li><a ui-sref="covered-calls">Covered Calls</a></li>
+      <li><a ui-sref="short-puts">Short Puts</a></li>
+      <li><a ui-sref="butterfly">Butterfly</a></li>
+      <li><a ui-sref="help">Help</a></li>
+    </ul>
+  </nav>
+
+  <div class="saturn">
+    <div ui-view></div>
+  </div>
+</body>
+</html>
