@@ -28,11 +28,6 @@ module Saturn.OptionView {
             };
 
             $scope.dataTable = this.createTable(tableElement, [], $scope.columns);
-
-            tableElement.on("init.dt", () => {
-                $scope.dataLoaded = true;
-            });
-
             this.initNumericFilters($scope);
             this.initSelection($scope, tableElement);
 
@@ -40,8 +35,9 @@ module Saturn.OptionView {
             // gets displayed
             this.$timeout(() =>
                 $scope.data.then((d) => {
-                        $scope.dataTable.fnAddData(d);
-                        $scope.dataLoaded = true;
+                    $scope.dataTable.fnAddData(d);
+                }).finally(() => {
+                    $scope.dataLoaded = true;
                 }), 0);
         };
 

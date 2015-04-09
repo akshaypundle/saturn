@@ -16,7 +16,6 @@ module Saturn.ShortPuts {
                     render: Util.renderPercent },
                 { data: "option.expiry", title: "Expiry", type: Saturn.OptionView.IColumnType.DATE },
                 { data: "option.strike", title: "Strike", type: Saturn.OptionView.IColumnType.NUMERIC },
-                { data: "option.type", title: "Type", type: Saturn.OptionView.IColumnType.OPTION_TYPE },
                 { data: "option.bid", title: "Bid", type: Saturn.OptionView.IColumnType.NUMERIC }
             ];
             $scope.data = $data.getShortPuts();
