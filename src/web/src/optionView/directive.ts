@@ -9,6 +9,12 @@ module Saturn.OptionView {
             data: "=",
             title: "@"
         };
+        private $timeout: ng.ITimeoutService;
+
+        public static $inject = ["$timeout"];
+        constructor($timeout: ng.ITimeoutService) {
+            this.$timeout = $timeout;
+        }
 
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
             var tableElement = element.find(".main-table");
@@ -30,10 +36,13 @@ module Saturn.OptionView {
             this.initNumericFilters($scope);
             this.initSelection($scope, tableElement);
 
-            $scope.data.then((d) => {
-                $scope.dataTable.fnAddData(d);
-                $scope.dataLoaded = true;
-            });
+            // use timeout to delay adding data so that the "Loading..." message
+            // gets displayed
+            this.$timeout(() =>
+                $scope.data.then((d) => {
+                        $scope.dataTable.fnAddData(d);
+                        $scope.dataLoaded = true;
+                }), 0);
         };
 
         private createTable(tableElement: JQuery, data: any, columns: any[]) {
@@ -110,5 +119,6 @@ module Saturn.OptionView {
             });
         }
     }
-    directives.directive("saturn.optionView.directive", () => new Saturn.OptionView.Directive());
+    directives.directive("saturn.optionView.directive", ["$timeout",
+        ($timeout: ng.ITimeoutService) => new Saturn.OptionView.Directive($timeout)]);
 }
