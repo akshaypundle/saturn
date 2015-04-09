@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 
 import com.google.common.base.Function;
@@ -36,6 +38,8 @@ import com.saturn.strategy.CoveredCall;
 import com.saturn.strategy.ShortPuts;
 
 public class App {
+	public static final String OUTPUT_DIR_PROPERTY = "saturn.output.dir";
+
 	private static CoveredCall COVERED_CALL_ROI = new CoveredCall();
 	private static ShortPuts SHORT_PUT_ROI = new ShortPuts();
 	private static Function<Timestamped<Option>, Option> TO_OPTIONS = new Function<Timestamped<Option>, Option>() {
@@ -87,6 +91,13 @@ public class App {
 		final Feed<Option> yahoo = yahoo();
 		final Feed<Option> deltaNeutral = deltaNeutral();
 
+		// figure out the output directory
+		String outputDir = Configuration.getProperties().getProperty(OUTPUT_DIR_PROPERTY);
+		if (StringUtils.isEmpty(outputDir)) {
+			outputDir = ".";
+		}
+		outputDir = FilenameUtils.removeExtension(outputDir) + "/";
+
 		Predicate<Timestamped<Option>> filter = Predicates.and(strike(), expiry());
 		filter = Predicates.and(Predicates.notNull(), filter);
 
@@ -104,12 +115,9 @@ public class App {
 		final Iterator<Timestamped<Option>> coveredCalls = Iterators.filter(combinedFeedData.iterator(),
 				Filters.singleValueStrategy(COVERED_CALL_ROI, 0, 100));
 
-		newWriter("/Users/apundle/repo/code/saturn/src/web/options.js", Iterators.transform(rawOptions, TO_OPTIONS))
-				.write();
-		newWriter("/Users/apundle/repo/code/saturn/src/web/shortPuts.js", Iterators.transform(shortPuts, TO_SHORT_PUTS))
-				.write();
-		newWriter("/Users/apundle/repo/code/saturn/src/web/coveredCalls.js",
-				Iterators.transform(coveredCalls, TO_COVERED_CALL)).write();
+		newWriter(outputDir + "options.js", Iterators.transform(rawOptions, TO_OPTIONS)).write();
+		newWriter(outputDir + "shortPuts.js", Iterators.transform(shortPuts, TO_SHORT_PUTS)).write();
+		newWriter(outputDir + "coveredCalls.js", Iterators.transform(coveredCalls, TO_COVERED_CALL)).write();
 
 		filter = Predicates.<Timestamped<Option>> and(Filters.expiry(LocalDate.now(), LocalDate.now().plusDays(11)),
 				Filters.calls());
@@ -135,7 +143,7 @@ public class App {
 			butterflyList.addAll(toButterfly(entry.getValue()));
 		}
 
-		newWriter("/Users/apundle/repo/code/saturn/src/web/butterfly.js", butterflyList.iterator()).write();
+		newWriter(outputDir + "butterfly.js", butterflyList.iterator()).write();
 
 		IOUtils.closeQuietly(yahoo);
 		IOUtils.closeQuietly(deltaNeutral);
