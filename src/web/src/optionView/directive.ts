@@ -12,6 +12,7 @@ module Saturn.OptionView {
 
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
             var tableElement = element.find(".main-table");
+            $scope.dataLoaded = false;
 
             for (var i = 0; i < $scope.columns.length; i++) {
                 var col = $scope.columns[i];
@@ -20,16 +21,19 @@ module Saturn.OptionView {
                 }
             };
 
-            $scope.data.then((d) => {
-                $scope.dataTable = this.createTable(tableElement, d, $scope.columns);
-            });
+            $scope.dataTable = this.createTable(tableElement, [], $scope.columns);
 
             tableElement.on("init.dt", () => {
-                    $scope.dataLoaded = true;
+                $scope.dataLoaded = true;
             });
 
             this.initNumericFilters($scope);
             this.initSelection($scope, tableElement);
+
+            $scope.data.then((d) => {
+                $scope.dataTable.fnAddData(d);
+                $scope.dataLoaded = true;
+            });
         };
 
         private createTable(tableElement: JQuery, data: any, columns: any[]) {
@@ -37,7 +41,8 @@ module Saturn.OptionView {
                 data: data,
                 columns: columns,
                 dom: "ftipr",
-                processing: true
+                processing: true,
+                deferRender: true
             };
 
             return tableElement.dataTable(initOptions);
