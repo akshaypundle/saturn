@@ -54,6 +54,10 @@ module Saturn.OptionView {
                 $scope.numericColumns.push({ min: col.defaultMin, max: col.defaultMax, index: i, title: col.title });
             };
 
+            $scope.$on("$destroy", () => {
+                $.fn.dataTable.ext.search.pop();
+            });
+
             $.fn.dataTable.ext.search.push((settings: any, data: any, dataIndex: any) => {
                 for (var i = 0; i < $scope.numericColumns.length; i++) {
                     var col = $scope.numericColumns[i];
