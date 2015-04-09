@@ -75,6 +75,10 @@ public class Filters {
 		return new SingleValueStrategyPredicate(strategy, minRoi, maxRoi);
 	}
 
+	public static final Predicate<Timestamped<Option>> tickers(Iterable<String> tickerCollection) {
+		return new TickersPredicate(tickerCollection);
+	}
+
 	private Filters() {
 		// nope
 	}
