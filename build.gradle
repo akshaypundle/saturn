@@ -1,7 +1,9 @@
 apply plugin: "java"
 apply plugin: "eclipse"
+apply plugin: "application"
 
 defaultTasks "clean", "grunt", "build"
+mainClassName = "com.saturn.App"
 
 repositories {
     mavenCentral()
@@ -18,6 +20,46 @@ task grunt(type: Exec) {
     commandLine "grunt"
 }
 
+processResources.dependsOn grunt
+
+sourceSets {
+  main {
+    java {
+      srcDir "src/main"
+    }
+  }
+}
+
+task createFeedDirs {
+  def yahoo  = file("$buildDir/feeds/yahoo/data")
+  outputs.dir yahoo 
+  doLast {
+    yahoo.mkdirs()
+  }
+}
+
+applicationDistribution.from(createFeedDirs) {
+    into "feeds"
+}
+
+distZip {
+    into(project.name + "/web") {
+      from "src/web"
+      include "src/**/*"
+      include "libraries/**/*"
+      include "index.html"
+    }
+
+    into(project.name + "/conf") {
+      from "conf"
+      include "**/*"
+    }
+    
+    into(project.name + "/feeds") {
+      from "$buildDir/feeds"
+      include "**/*"
+    }
+}
 
 dependencies {
   compile "org.apache.commons:commons-csv:1.1"
