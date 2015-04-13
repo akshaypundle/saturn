@@ -43,7 +43,7 @@ applicationDistribution.from(createFeedDirs) {
 }
 
 distZip {
-    into(project.name + "/web") {
+    into(project.name + "/src/web") {
       from "src/web"
       include "src/**/*"
       include "libraries/**/*"
