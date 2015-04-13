@@ -13,7 +13,9 @@ module Saturn.Options {
                 { data: "expiry", title: "Expiry", type: Saturn.OptionView.IColumnType.DATE },
                 { data: "strike", title: "Strike", type: Saturn.OptionView.IColumnType.NUMERIC },
                 { data: "type", title: "Type", type: Saturn.OptionView.IColumnType.OPTION_TYPE },
-                { data: "bid", title: "Bid", type: Saturn.OptionView.IColumnType.NUMERIC }
+                { data: "bid", title: "Bid", type: Saturn.OptionView.IColumnType.NUMERIC },
+                { data: "ask", title: "Ask", type: Saturn.OptionView.IColumnType.NUMERIC }
+
             ];
             $scope.data = $data.getOptions();
         }

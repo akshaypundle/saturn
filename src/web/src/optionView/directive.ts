@@ -9,9 +9,16 @@ module Saturn.OptionView {
             data: "=",
             title: "@"
         };
+        private $timeout: ng.ITimeoutService;
+
+        public static $inject = ["$timeout"];
+        constructor($timeout: ng.ITimeoutService) {
+            this.$timeout = $timeout;
+        }
 
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
             var tableElement = element.find(".main-table");
+            $scope.dataLoaded = false;
 
             for (var i = 0; i < $scope.columns.length; i++) {
                 var col = $scope.columns[i];
@@ -20,16 +27,18 @@ module Saturn.OptionView {
                 }
             };
 
-            $scope.data.then((d) => {
-                $scope.dataTable = this.createTable(tableElement, d, $scope.columns);
-            });
-
-            tableElement.on("init.dt", () => {
-                    $scope.dataLoaded = true;
-            });
-
+            $scope.dataTable = this.createTable(tableElement, [], $scope.columns);
             this.initNumericFilters($scope);
             this.initSelection($scope, tableElement);
+
+            // use timeout to delay adding data so that the "Loading..." message
+            // gets displayed
+            this.$timeout(() =>
+                $scope.data.then((d) => {
+                    $scope.dataTable.fnAddData(d);
+                }).finally(() => {
+                    $scope.dataLoaded = true;
+                }), 0);
         };
 
         private createTable(tableElement: JQuery, data: any, columns: any[]) {
@@ -37,7 +46,8 @@ module Saturn.OptionView {
                 data: data,
                 columns: columns,
                 dom: "ftipr",
-                processing: true
+                processing: true,
+                deferRender: true
             };
 
             return tableElement.dataTable(initOptions);
@@ -53,6 +63,10 @@ module Saturn.OptionView {
                 }
                 $scope.numericColumns.push({ min: col.defaultMin, max: col.defaultMax, index: i, title: col.title });
             };
+
+            $scope.$on("$destroy", () => {
+                $.fn.dataTable.ext.search.pop();
+            });
 
             $.fn.dataTable.ext.search.push((settings: any, data: any, dataIndex: any) => {
                 for (var i = 0; i < $scope.numericColumns.length; i++) {
@@ -101,5 +115,6 @@ module Saturn.OptionView {
             });
         }
     }
-    directives.directive("saturn.optionView.directive", () => new Saturn.OptionView.Directive());
+    directives.directive("saturn.optionView.directive", ["$timeout",
+        ($timeout: ng.ITimeoutService) => new Saturn.OptionView.Directive($timeout)]);
 }

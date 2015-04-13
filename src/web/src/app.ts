@@ -11,7 +11,7 @@ module Saturn {
     ]);
 
     app.config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {
-        $urlRouterProvider.otherwise("");
+        $urlRouterProvider.otherwise("/");
         $stateProvider.state("/", {
             url: "/",
             templateUrl: "src/partials/saturn.html"
