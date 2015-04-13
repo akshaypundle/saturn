@@ -53,7 +53,7 @@ public class App {
 			return ImmutableMap.<String, Object> of(//
 					"option", option, //
 					"coveredCallRoi", COVERED_CALL_ROI.roi(option), //
-					"coveredCallDownProtect", (option.getStrike() - underlying) / underlying);
+					"coveredCallDownProtect", (underlying - option.getStrike()) / underlying);
 		}
 
 	};
