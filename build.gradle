@@ -54,7 +54,11 @@ distZip {
       from "conf"
       include "**/*"
     }
-    
+    into(project.name + "/scripts") {
+      from "scripts"
+      include "**/*"
+    }
+
     into(project.name + "/feeds") {
       from "$buildDir/feeds"
       include "**/*"
