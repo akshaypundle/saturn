@@ -12,9 +12,11 @@ Initial Setup
 
 1. Install gradle (http://www.gradle.org/installation)
 2. Install node (https://nodejs.org/download/)
-3. ``git clone https://github.com/akshaypundle/saturn.git``
-4. ``cd saturn/src/web``
-5. ``npm install``
+3. Install Java 8 (https://java.com/en/download/)
+4. ``export JAVA_HOME=<java 8 install directory>``
+5. ``git clone https://github.com/akshaypundle/saturn.git``
+6. ``cd saturn/src/web``
+7. ``npm install``
 
 You should now be able to edit the java and web source files. 
 
