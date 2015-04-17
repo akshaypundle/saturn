@@ -7,7 +7,8 @@ module Saturn {
         controllers.name,
         directives.name,
         services.name,
-        "ui.router"
+        "ui.router",
+        "cfp.hotkeys"
     ]);
 
     app.config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {

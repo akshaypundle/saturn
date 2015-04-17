@@ -21,6 +21,9 @@
     },
     "angularjs/angular-resource.d.ts": {
       "commit": "5898d809e04403dfe5c62c0ec1713d10c54126f7"
+    },
+    "angular-hotkeys/angular-hotkeys.d.ts": {
+      "commit": "52fa2b9ce36f2c5843204e9bfbaada7cded9b47a"
     }
   }
 }

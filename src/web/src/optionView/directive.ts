@@ -10,10 +10,12 @@ module Saturn.OptionView {
             title: "@"
         };
         private $timeout: ng.ITimeoutService;
+        private hotkeys: ng.hotkeys.HotkeysProvider;
 
-        public static $inject = ["$timeout"];
-        constructor($timeout: ng.ITimeoutService) {
+        public static $inject = ["$timeout", "hotkeys"];
+        constructor($timeout: ng.ITimeoutService, hotkeys: ng.hotkeys.HotkeysProvider) {
             this.$timeout = $timeout;
+            this.hotkeys = hotkeys;
         }
 
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
@@ -39,6 +41,20 @@ module Saturn.OptionView {
                 }).finally(() => {
                     $scope.dataLoaded = true;
                 }), 0);
+
+            this.hotkeys.bindTo($scope).add({
+                combo: "right",
+                description: "next page",
+                callback: () => {
+                    $scope.dataTable.fnPageChange("next");
+                }
+            }).add({
+                combo: "left",
+                description: "previous page",
+                callback: () => {
+                    $scope.dataTable.fnPageChange("previous");
+                }
+            });
         };
 
         private createTable(tableElement: JQuery, data: any, columns: any[]) {
@@ -115,6 +131,6 @@ module Saturn.OptionView {
             });
         }
     }
-    directives.directive("saturn.optionView.directive", ["$timeout",
-        ($timeout: ng.ITimeoutService) => new Saturn.OptionView.Directive($timeout)]);
+    directives.directive("saturn.optionView.directive", ["$timeout", "hotkeys",
+        ($timeout: ng.ITimeoutService, hotkeys: ng.hotkeys.HotkeysProvider) => new Saturn.OptionView.Directive($timeout, hotkeys)]);
 }
