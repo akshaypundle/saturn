@@ -58,6 +58,53 @@ module Saturn.OptionView {
                     $scope.dataTable.page("previous");
                     $scope.dataTable.draw(false);
                 }
+            }).add({
+                combo: "down",
+                description: "next row",
+                callback: () => {
+                    var $rows = $scope.dataTable.rows({ page: "current" });
+                    var $row = $scope.dataTable.rows({ page: "current" }).$("tr.selected");
+                    var index = $row.index();
+                    var row: DataTables.RowMethods;
+
+                    if (index === $rows.indexes().length - 1 && $scope.dataTable.page() === $scope.dataTable.page.info().pages - 1) {
+                        return; // nothing to do
+                    }
+                    Directive.unselectAllRows($scope);
+
+                    if (index === $scope.dataTable.page.len() - 1) {
+                        $scope.dataTable.page("next");
+                        $scope.dataTable.draw(false);
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(0));
+                    } else {
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(index + 1));
+                    }
+                    Directive.selectRow(row, $scope);
+                    $scope.dataTable.draw(false);
+                }
+            }).add({
+                combo: "up",
+                description: "previous row",
+                callback: () => {
+                    var $row = $scope.dataTable.rows({ page: "current" }).$("tr.selected");
+                    var index = $row.index();
+
+                    if (index === 0 && $scope.dataTable.page() === 0) {
+                        return; // nothing to do
+                    }
+
+                    Directive.unselectAllRows($scope);
+                    var row: DataTables.RowMethods;
+                    if (index === 0) {
+                        $scope.dataTable.page("previous");
+                        $scope.dataTable.draw(false);
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck($scope.dataTable.page.len() - 1));
+                    } else {
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(index - 1));
+                    }
+                    Directive.selectRow(row, $scope);
+                    $scope.dataTable.draw(false);
+                }
             });
         };
 
@@ -114,27 +161,32 @@ module Saturn.OptionView {
             tableElement.on("click", "tr", (event: JQueryEventObject) => {
                 var currentRowElement = $(event.currentTarget);
 
-                if (currentRowElement.hasClass("selected")) {
-                    $scope.dataTable.$("tr.selected").removeClass("selected");
-
-                    $scope.$apply(() => {
+                $scope.$apply(() => {
+                    if (currentRowElement.hasClass("selected")) {
+                        Directive.unselectAllRows($scope);
                         $scope.updateSelectedOptionDetails(null);
-                    });
-                } else {
-                    $scope.dataTable.$("tr.selected").removeClass("selected");
-                    var row = $scope.dataTable.row(currentRowElement);
-                    if (row) {
-                        var node = row.node();
-                        $(node).addClass("selected");
-                        $scope.$apply(() => {
-                            var data : any = row.data();
-                            if (data) {
-                                $scope.updateSelectedOptionDetails(data.option.underlying.symbol);
-                            }
-                        });
+                    } else {
+                        Directive.unselectAllRows($scope);
+                        Directive.selectRow($scope.dataTable.row(currentRowElement), $scope);
                     }
-                }
+                });
             });
+        }
+
+        private static unselectAllRows($scope: IScope) {
+            $scope.dataTable.$("tr.selected").removeClass("selected");
+        }
+
+        private static selectRow(row: DataTables.RowMethods, $scope: IScope) {
+            if (row) {
+                var node = row.node();
+                var data: any = row.data();
+
+                $(node).addClass("selected");
+                if (data) {
+                    $scope.updateSelectedOptionDetails(data.option.underlying.symbol);
+                }
+            }
         }
     }
     directives.directive("saturn.optionView.directive", ["$timeout", "hotkeys",
