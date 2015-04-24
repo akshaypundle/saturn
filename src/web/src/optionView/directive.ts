@@ -37,7 +37,8 @@ module Saturn.OptionView {
             // gets displayed
             this.$timeout(() =>
                 $scope.data.then((d) => {
-                    $scope.dataTable.fnAddData(d);
+                    $scope.dataTable.rows.add(d);
+                    $scope.dataTable.draw();
                 }).finally(() => {
                     $scope.dataLoaded = true;
                 }), 0);
@@ -46,13 +47,16 @@ module Saturn.OptionView {
                 combo: "right",
                 description: "next page",
                 callback: () => {
-                    $scope.dataTable.fnPageChange("next");
+                    $scope.dataTable.page("next");
+                    $scope.dataTable.draw(false);
+
                 }
             }).add({
                 combo: "left",
                 description: "previous page",
                 callback: () => {
-                    $scope.dataTable.fnPageChange("previous");
+                    $scope.dataTable.page("previous");
+                    $scope.dataTable.draw(false);
                 }
             });
         };
@@ -66,7 +70,7 @@ module Saturn.OptionView {
                 deferRender: true
             };
 
-            return tableElement.dataTable(initOptions);
+            return tableElement.DataTable(initOptions);
         }
 
         private initNumericFilters($scope: IScope) {
@@ -101,7 +105,7 @@ module Saturn.OptionView {
 
             $scope.$watch("numericColumns", () => {
                 if ($scope.dataTable) {
-                    $scope.dataTable.fnDraw();
+                    $scope.dataTable.draw(false);
                 }
             }, true);
         }
@@ -118,13 +122,15 @@ module Saturn.OptionView {
                     });
                 } else {
                     $scope.dataTable.$("tr.selected").removeClass("selected");
-
-                    var selectedIndex = $scope.dataTable.fnGetPosition(currentRowElement[0]);
-                    if (selectedIndex) {
-                        var node = $scope.dataTable.fnGetNodes(selectedIndex);
+                    var row = $scope.dataTable.row(currentRowElement);
+                    if (row) {
+                        var node = row.node();
                         $(node).addClass("selected");
                         $scope.$apply(() => {
-                            $scope.updateSelectedOptionDetails($scope.dataTable._("tr.selected")[0].option.underlying.symbol);
+                            var data : any = row.data();
+                            if (data) {
+                                $scope.updateSelectedOptionDetails(data.option.underlying.symbol);
+                            }
                         });
                     }
                 }
