@@ -3,4 +3,4 @@ jdk:
   - oraclejdk7
 
 before_install: npm install -g grunt-cli
-install: cd src/web && npm install
+install: cd src/web && npm install && cd ../..
