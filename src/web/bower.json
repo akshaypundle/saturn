@@ -6,6 +6,6 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5",
     "datatables": "~1.10.4",
     "datatables-tabletools": "*",
-    "lesshat": "3.0.2",
+    "lesshat": "~3.0.2"
   }
 }
