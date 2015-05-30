@@ -1,5 +1,7 @@
 Saturn
 ======
+[![Build Status](https://travis-ci.org/akshaypundle/saturn.svg?branch=develop)](https://travis-ci.org/akshaypundle/saturn)
+
 Saturn give you access to option data and helps analyze returns for different strategies involving options (see [http://www.wikiwand.com/en/Options_strategies](http://www.wikiwand.com/en/Options_strategies)). The strategies are listed in the top bar. Saturn computes the return for each of the strategies for the entire market. The results are presented in a table where you can easily search, sort and filter results. 
 
 General Usage
