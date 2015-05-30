@@ -10,10 +10,12 @@ module Saturn.OptionView {
             title: "@"
         };
         private $timeout: ng.ITimeoutService;
+        private hotkeys: ng.hotkeys.HotkeysProvider;
 
-        public static $inject = ["$timeout"];
-        constructor($timeout: ng.ITimeoutService) {
+        public static $inject = ["$timeout", "hotkeys"];
+        constructor($timeout: ng.ITimeoutService, hotkeys: ng.hotkeys.HotkeysProvider) {
             this.$timeout = $timeout;
+            this.hotkeys = hotkeys;
         }
 
         public link = ($scope: Saturn.OptionView.IScope, element: JQuery) => {
@@ -35,10 +37,75 @@ module Saturn.OptionView {
             // gets displayed
             this.$timeout(() =>
                 $scope.data.then((d) => {
-                    $scope.dataTable.fnAddData(d);
+                    $scope.dataTable.rows.add(d);
+                    $scope.dataTable.draw();
                 }).finally(() => {
                     $scope.dataLoaded = true;
                 }), 0);
+
+            this.hotkeys.bindTo($scope).add({
+                combo: "right",
+                description: "next page",
+                callback: () => {
+                    $scope.dataTable.page("next");
+                    $scope.dataTable.draw(false);
+
+                }
+            }).add({
+                combo: "left",
+                description: "previous page",
+                callback: () => {
+                    $scope.dataTable.page("previous");
+                    $scope.dataTable.draw(false);
+                }
+            }).add({
+                combo: "down",
+                description: "next row",
+                callback: () => {
+                    var $rows = $scope.dataTable.rows({ page: "current" });
+                    var $row = $scope.dataTable.rows({ page: "current" }).$("tr.selected");
+                    var index = $row.index();
+                    var row: DataTables.RowMethods;
+
+                    if (index === $rows.indexes().length - 1 && $scope.dataTable.page() === $scope.dataTable.page.info().pages - 1) {
+                        return; // nothing to do
+                    }
+                    Directive.unselectAllRows($scope);
+
+                    if (index === $scope.dataTable.page.len() - 1) {
+                        $scope.dataTable.page("next");
+                        $scope.dataTable.draw(false);
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(0));
+                    } else {
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(index + 1));
+                    }
+                    Directive.selectRow(row, $scope);
+                    $scope.dataTable.draw(false);
+                }
+            }).add({
+                combo: "up",
+                description: "previous row",
+                callback: () => {
+                    var $row = $scope.dataTable.rows({ page: "current" }).$("tr.selected");
+                    var index = $row.index();
+
+                    if (index === 0 && $scope.dataTable.page() === 0) {
+                        return; // nothing to do
+                    }
+
+                    Directive.unselectAllRows($scope);
+                    var row: DataTables.RowMethods;
+                    if (index === 0) {
+                        $scope.dataTable.page("previous");
+                        $scope.dataTable.draw(false);
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck($scope.dataTable.page.len() - 1));
+                    } else {
+                        row = $scope.dataTable.row($scope.dataTable.rows({ page: "current" }).pluck(index - 1));
+                    }
+                    Directive.selectRow(row, $scope);
+                    $scope.dataTable.draw(false);
+                }
+            });
         };
 
         private createTable(tableElement: JQuery, data: any, columns: any[]) {
@@ -50,7 +117,7 @@ module Saturn.OptionView {
                 deferRender: true
             };
 
-            return tableElement.dataTable(initOptions);
+            return tableElement.DataTable(initOptions);
         }
 
         private initNumericFilters($scope: IScope) {
@@ -85,7 +152,7 @@ module Saturn.OptionView {
 
             $scope.$watch("numericColumns", () => {
                 if ($scope.dataTable) {
-                    $scope.dataTable.fnDraw();
+                    $scope.dataTable.draw(false);
                 }
             }, true);
         }
@@ -94,27 +161,34 @@ module Saturn.OptionView {
             tableElement.on("click", "tr", (event: JQueryEventObject) => {
                 var currentRowElement = $(event.currentTarget);
 
-                if (currentRowElement.hasClass("selected")) {
-                    $scope.dataTable.$("tr.selected").removeClass("selected");
-
-                    $scope.$apply(() => {
+                $scope.$apply(() => {
+                    if (currentRowElement.hasClass("selected")) {
+                        Directive.unselectAllRows($scope);
                         $scope.updateSelectedOptionDetails(null);
-                    });
-                } else {
-                    $scope.dataTable.$("tr.selected").removeClass("selected");
-
-                    var selectedIndex = $scope.dataTable.fnGetPosition(currentRowElement[0]);
-                    if (selectedIndex) {
-                        var node = $scope.dataTable.fnGetNodes(selectedIndex);
-                        $(node).addClass("selected");
-                        $scope.$apply(() => {
-                            $scope.updateSelectedOptionDetails($scope.dataTable._("tr.selected")[0].option.underlying.symbol);
-                        });
+                    } else {
+                        Directive.unselectAllRows($scope);
+                        Directive.selectRow($scope.dataTable.row(currentRowElement), $scope);
                     }
-                }
+                });
             });
         }
+
+        private static unselectAllRows($scope: IScope) {
+            $scope.dataTable.$("tr.selected").removeClass("selected");
+        }
+
+        private static selectRow(row: DataTables.RowMethods, $scope: IScope) {
+            if (row) {
+                var node = row.node();
+                var data: any = row.data();
+
+                $(node).addClass("selected");
+                if (data) {
+                    $scope.updateSelectedOptionDetails(data.option.underlying.symbol);
+                }
+            }
+        }
     }
-    directives.directive("saturn.optionView.directive", ["$timeout",
-        ($timeout: ng.ITimeoutService) => new Saturn.OptionView.Directive($timeout)]);
+    directives.directive("saturn.optionView.directive", ["$timeout", "hotkeys",
+        ($timeout: ng.ITimeoutService, hotkeys: ng.hotkeys.HotkeysProvider) => new Saturn.OptionView.Directive($timeout, hotkeys)]);
 }

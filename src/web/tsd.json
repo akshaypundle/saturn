@@ -17,10 +17,13 @@
       "commit": "a2786aa37794c513a20759a0f1b4c1c04c04c448"
     },
     "jquery.dataTables/jquery.dataTables.d.ts": {
-      "commit": "5898d809e04403dfe5c62c0ec1713d10c54126f7"
+      "commit": "de18109f44d99864a19441509a3fc876adba68e9"
     },
     "angularjs/angular-resource.d.ts": {
       "commit": "5898d809e04403dfe5c62c0ec1713d10c54126f7"
+    },
+    "angular-hotkeys/angular-hotkeys.d.ts": {
+      "commit": "52fa2b9ce36f2c5843204e9bfbaada7cded9b47a"
     }
   }
 }
