@@ -1,6 +1,6 @@
 gradle distZip &&
-scp -i ~/.ssh/covered-call-app.pem build/distributions/saturn.zip ec2-user@ec2-54-186-84-174.us-west-2.compute.amazonaws.com: &&
-ssh -i ~/.ssh/covered-call-app.pem ec2-user@ec2-54-186-84-174.us-west-2.compute.amazonaws.com unzip -ou saturn.zip && 
+scp -i ~/.ssh/saturn1.pem build/distributions/saturn.zip ec2-user@ec2-52-33-109-109.us-west-2.compute.amazonaws.com: &&
+ssh -i ~/.ssh/saturn1.pem ec2-user@ec2-52-33-109-109.us-west-2.compute.amazonaws.com unzip -ou saturn.zip && 
 echo "
 ----------------------------------------------------------------------------------------
 Make the following crontab entries:
