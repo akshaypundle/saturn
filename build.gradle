@@ -49,7 +49,7 @@ distZip {
       from "src/web"
       include "src/**/*"
       include "libraries/**/*"
-      imclude "img/**/*"
+      include "img/**/*"
       include "index.html"
     }
 
