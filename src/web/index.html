@@ -40,6 +40,7 @@
 
   <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="navbar-header">
+      <img class="pull-left" src="img/saturn_small.gif"></img>
       <a class="navbar-brand" ui-sref="/">Saturn</a>
     </div>
     <ul class="nav navbar-nav">
@@ -50,9 +51,8 @@
       <li><a ui-sref="help">Help</a></li>
     </ul>
   </nav>
-
   <div class="saturn">
-    <div ui-view></div>
+    <div ui-view autoscroll="false"></div>
   </div>
 </body>
 </html>

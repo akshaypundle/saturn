@@ -1,10 +1,11 @@
 *.class
 .gradle
 *.swp
-
-./build/
+.classpath
+build/
 feeds/
 options.js
 coveredCalls.js
 puts.js
 butterfly.js
+/bin/
